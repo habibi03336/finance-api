@@ -19,7 +19,7 @@ public class ExchangeOfficeImpl implements ExchangeOffice {
             dollarToFromCurrencyRate = getAverageRateFromDollar(year, lastMonth, cumulativeMonth, fromCurrency);
         }
         if(toCurrency.equals("USD")){
-            return dollarToFromCurrencyRate;
+            return (1 / dollarToFromCurrencyRate);
         }
         double dollarToToCurrencyRate = getAverageRateFromDollar(year, lastMonth, cumulativeMonth, toCurrency);
         return  (1 / dollarToFromCurrencyRate) * dollarToToCurrencyRate;
@@ -46,7 +46,7 @@ public class ExchangeOfficeImpl implements ExchangeOffice {
             dollarToFromCurrencyRate = dollarExchangeRateRepository.findByYearAndMonthAndCurrency(year, lastMonth, fromCurrency).getRate();
         }
         if(toCurrency.equals("USD")){
-            return dollarToFromCurrencyRate;
+            return (1 / dollarToFromCurrencyRate);
         }
         double dollarToToCurrencyRate = dollarExchangeRateRepository.findByYearAndMonthAndCurrency(year, lastMonth, toCurrency).getRate();
         return  (1 / dollarToFromCurrencyRate) * dollarToToCurrencyRate;
