@@ -2,6 +2,7 @@ package com.finance.domain;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "company")
 public class CompanyEntity {
     @Id
     @Column(name = "company_code")

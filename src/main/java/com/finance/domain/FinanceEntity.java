@@ -1,13 +1,11 @@
 package com.finance.domain;
 
 import com.finance.domain.compositeKey.FinanceKey;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 
 @Entity
 @IdClass(FinanceKey.class)
+@Table(name = "finance")
 public class FinanceEntity {
     @Id
     @Column(name = "report_code")

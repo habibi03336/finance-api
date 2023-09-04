@@ -4,9 +4,11 @@ import com.finance.domain.compositeKey.DollarExchangeRateKey;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
 
 @Entity
 @IdClass(DollarExchangeRateKey.class)
+@Table(name = "dollar_exchange_rate")
 public class DollarExchangeRateEntity {
     @Id
     private int year;

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @IdClass(CompanyAliasKey.class)
+@Table(name = "company_aliases")
 public class CompanyAliasEntity {
     @Id
     @Column(name = "company_code")
