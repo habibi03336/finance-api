@@ -3,8 +3,11 @@ package com.finance.domain.compositeKey;
 import java.io.Serializable;
 
 public class FinanceKey implements Serializable {
+
     private String reportCode;
     private String reportType;
+
+    public FinanceKey() {}
 
     public FinanceKey(String reportCode, String reportType) {
         this.reportCode = reportCode;
@@ -20,4 +23,8 @@ public class FinanceKey implements Serializable {
         return financeKey.reportCode.equals(reportCode) && financeKey.reportType.equals(reportType);
     }
 
+    @Override
+    public int hashCode(){
+        return 0;
+    }
 }
