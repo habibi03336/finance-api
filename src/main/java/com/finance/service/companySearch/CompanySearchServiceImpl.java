@@ -8,7 +8,6 @@ import com.finance.repository.CompanyRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CompanySearchServiceImpl implements CompanySearchService {
@@ -23,10 +22,10 @@ public class CompanySearchServiceImpl implements CompanySearchService {
 
     @Override
     public List<CompanyDTO> searchCompany(String token) {
-        Set<CompanyAliasEntity> companyAliases = companyAliasRepository.findDistinctCompanyCodeByAliasStartingWith(token);
+        List<String> companyCodes = companyAliasRepository.findDistinctCompanyCodeByAliasStartingWith(token);
         List<CompanyEntity> companies = new ArrayList<>();
-        for(CompanyAliasEntity alias : companyAliases){
-            companies.add(companyRepository.findByCompanyCode(alias.getCompanyCode()));
+        for(String companyCode : companyCodes){
+            companies.add(companyRepository.findByCompanyCode(companyCode));
         }
         return companies.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
