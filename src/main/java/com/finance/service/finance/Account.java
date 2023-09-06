@@ -2,9 +2,9 @@ package com.finance.service.finance;
 
 public class Account {
     private Type type;
-    private long amount;
+    private Long amount;
 
-    public Account(Type type, long amount){
+    public Account(Type type, Long amount){
         this.type = type;
         this.amount = amount;
     }
@@ -12,7 +12,7 @@ public class Account {
     public Type getType() {
         return type;
     }
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 

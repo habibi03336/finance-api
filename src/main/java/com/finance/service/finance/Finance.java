@@ -45,7 +45,7 @@ public class Finance {
         for(Account acc : accounts){
             if(acc.isIncome()){
                 for(Account acc2: accounts2){
-                    if(acc.getType().equals(acc2.getType())){
+                    if(acc.getType().equals(acc2.getType()) && acc.getAmount() != null && acc2.getAmount() != null){
                         diffAccounts.add(new Account(acc.getType(), acc.getAmount() - acc2.getAmount()));
                         break;
                     }
