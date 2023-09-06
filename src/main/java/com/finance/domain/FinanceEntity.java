@@ -23,18 +23,18 @@ public class FinanceEntity {
     @Column(name = "cumulative_month")
     private int cumulativeMonth;
     private String currency;
-    private long equity;
-    private long debt;
-    private long sales;
+    private Long equity;
+    private Long debt;
+    private Long sales;
 
     @Column(name = "operating_profit")
-    private long operatingProfit;
+    private Long operatingProfit;
 
     @Column(name = "net_profit")
-    private long netProfit;
+    private Long netProfit;
 
     @Column(name = "cash_equivalents")
-    private long cash;
+    private Long cash;
 
     public String getReportCode() {
         return reportCode;
@@ -64,27 +64,27 @@ public class FinanceEntity {
         return currency;
     }
 
-    public long getEquity() {
+    public Long getEquity() {
         return equity;
     }
 
-    public long getDebt() {
+    public Long getDebt() {
         return debt;
     }
 
-    public long getSales() {
+    public Long getSales() {
         return sales;
     }
 
-    public long getOperatingProfit() {
+    public Long getOperatingProfit() {
         return operatingProfit;
     }
 
-    public long getNetProfit() {
+    public Long getNetProfit() {
         return netProfit;
     }
 
-    public long getCash() {
+    public Long getCash() {
         return cash;
     }
 }

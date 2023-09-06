@@ -16,12 +16,12 @@ class FinanceTest {
     void 환전기능기본테스트Test() {
         // given
         List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account(Account.Type.sales, 100_000));
-        accounts.add(new Account(Account.Type.operatingProfit, 50_000));
-        accounts.add(new Account(Account.Type.netProfit, 30_000));
-        accounts.add(new Account(Account.Type.equity, 40_000));
-        accounts.add(new Account(Account.Type.debt, 45_000));
-        accounts.add(new Account(Account.Type.cashEquivalents, 25_000));
+        accounts.add(new Account(Account.Type.sales, 100_000l));
+        accounts.add(new Account(Account.Type.operatingProfit, 50_000l));
+        accounts.add(new Account(Account.Type.netProfit, 30_000l));
+        accounts.add(new Account(Account.Type.equity, 40_000l));
+        accounts.add(new Account(Account.Type.debt, 45_000l));
+        accounts.add(new Account(Account.Type.cashEquivalents, 25_000l));
         Finance finance = new Finance(
                 "1",
                 "1",
