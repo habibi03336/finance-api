@@ -9,6 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CompanyAliasRepository extends JpaRepository<CompanyAliasEntity, CompanyAliasKey> {
-    @Query(nativeQuery = true, value="select distinct company_code from company_aliases where alias like :token || '%'")
-    List<String> findDistinctCompanyCodeByAliasStartingWith(@Param("token") String token);
+    @Query(nativeQuery = true, value="select distinct company_code from company_aliases where alias like :token || '%' limit :searchLimit")
+    List<String> findAllDistinctCompanyCodeByAliasStartingWith(@Param("token") String token, @Param("searchLimit") int searchLimit);
 }
