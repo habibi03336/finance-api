@@ -21,7 +21,10 @@ public class CompanySearchController {
 
     @GetMapping("/company")
     @ResponseBody
-    public List<CompanyDTO> SearchCompanies(@RequestParam("token") String token){
+    public List<CompanyDTO> SearchCompanies(@RequestParam("token") String token, @RequestParam(required = false) Integer limit){
+        if(limit != null){
+            return companySearchService.searchCompany(token, limit);
+        }
         return companySearchService.searchCompany(token);
     }
 }
