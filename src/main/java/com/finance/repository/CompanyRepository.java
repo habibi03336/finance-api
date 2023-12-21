@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface CompanyRepository extends JpaRepository<CompanyEntity, String> {
 
     CompanyEntity findByCompanyCode(String companyCode);
+    CompanyEntity findByStockCode(String stockCode);
 }

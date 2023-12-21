@@ -36,6 +36,12 @@ public class CompanySearchServiceImpl implements CompanySearchService {
         return companies.stream().map(this::mapToDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public CompanyDTO getCompanyByStockCode(String stockCode) {
+        CompanyEntity companyEntity = companyRepository.findByStockCode(stockCode);
+        return mapToDTO(companyEntity);
+    }
+
     private CompanyDTO mapToDTO(CompanyEntity company) {
         CompanyDTO companyDTO = new CompanyDTO();
         companyDTO.companyCode = company.getCompanyCode();

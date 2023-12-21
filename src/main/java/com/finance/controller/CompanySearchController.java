@@ -27,4 +27,10 @@ public class CompanySearchController {
         }
         return companySearchService.searchCompany(token);
     }
+
+    @GetMapping("/company")
+    @ResponseBody
+    public CompanyDTO getCompanyByStockCode(@RequestParam("stockCode") String token){
+        return companySearchService.getCompanyByStockCode(token);
+    }
 }
