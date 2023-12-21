@@ -28,7 +28,7 @@ public class CompanySearchController {
         return companySearchService.searchCompany(token);
     }
 
-    @GetMapping("/company")
+    @GetMapping("/companyByStockCode")
     @ResponseBody
     public CompanyDTO getCompanyByStockCode(@RequestParam("stockCode") String token){
         return companySearchService.getCompanyByStockCode(token);
