@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: api.tar
+  - source: finance_api.tar
     destination: /deploy
 
 file_exists_behavior: OVERWRITE
