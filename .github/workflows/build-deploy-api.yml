@@ -42,15 +42,15 @@ jobs:
       - name: package as docker image
         working-directory: ./
         run: |
-          docker build -t api ./
-          docker save -o api.tar api
+          docker build -t finance_api ./
+          docker save -o finance_api.tar finance_api
 
       - name: package as code deploy zip
         working-directory: ./
         run: |
           cp .deploy/appspec/api.yml ./appspec.yml
           cp .deploy/script/docker-restart.sh ./script.sh
-          zip -r ./deploy-api.zip api.tar appspec.yml script.sh
+          zip -r ./deploy-api.zip finance_api.tar appspec.yml script.sh
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
