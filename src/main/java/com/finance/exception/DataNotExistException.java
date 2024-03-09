@@ -1,4 +1,4 @@
-package com.finance.Exception;
+package com.finance.exception;
 
 public class DataNotExistException extends Exception {
     public DataNotExistException() {}

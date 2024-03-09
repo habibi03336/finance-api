@@ -1,6 +1,6 @@
 package com.finance.service.companySearch;
 
-import com.finance.Exception.DataNotExistException;
+import com.finance.exception.DataNotExistException;
 import com.finance.domain.CompanyEntity;
 import com.finance.dto.CompanyDTO;
 import com.finance.repository.CompanyAliasRepository;

@@ -1,6 +1,6 @@
 package com.finance;
 
-import com.finance.Exception.DataNotExistException;
+import com.finance.exception.DataNotExistException;
 import com.finance.controller.CompanySearchController;
 import com.finance.dto.CompanyDTO;
 import org.junit.jupiter.api.Test;

@@ -1,17 +1,17 @@
 package com.finance.controller;
 
-import com.finance.Exception.DataNotExistException;
+import com.finance.exception.DataNotExistException;
 import com.finance.dto.CompanyDTO;
 import com.finance.service.companySearch.CompanySearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
 public class CompanySearchController {
     private final CompanySearchService companySearchService;
 
