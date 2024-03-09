@@ -24,15 +24,18 @@ public class FinanceServiceImpl implements FinanceService {
         financeRepository = fr;
     }
 
+    private final String COMPANY_CODE_NOT_EXIST = "%s 기업코드가 존재하지 않습니다..";
+    private final String FINANCE_DATA_NOT_EXIST = "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.";
+
     @Override
     public FinanceDTO getQuarterFinance(String companyCode, int year, int quarter, String currency) throws DataNotExistException {
         CompanyEntity companyEntity = companyRepository
                 .findByCompanyCode(companyCode)
-                .orElseThrow(()->new DataNotExistException(String.format("%s 기업코드가 존재하지 않습니다..", companyCode)));
+                .orElseThrow(()->new DataNotExistException(String.format(COMPANY_CODE_NOT_EXIST, companyCode)));
         Finance finance = generateFinance(companyCode, year, quarter)
                 .orElseThrow(()->new DataNotExistException(
                         String.format(
-                                "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.",
+                                FINANCE_DATA_NOT_EXIST,
                                 companyEntity.getCompanyName(),
                                 year,
                                 quarter
@@ -46,7 +49,7 @@ public class FinanceServiceImpl implements FinanceService {
             Finance priorFinance = generateFinance(companyCode, priorYear, priorQuarter)
                     .orElseThrow(()->new DataNotExistException(
                             String.format(
-                                    "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.",
+                                    FINANCE_DATA_NOT_EXIST,
                                     companyEntity.getCompanyName(),
                                     priorYear,
                                     priorQuarter
@@ -59,12 +62,13 @@ public class FinanceServiceImpl implements FinanceService {
         return mapToDTO(quarterFinance, companyEntity);
     }
 
+    private String CONSOLIDATED_K_IFRS_REPORT_TYPE = "consolidated K-IFRS";
+    private String SEPERATE_K_IFRS_REPORT_TYPE = "seperate K-IFRS";
+
     private Optional<Finance> generateFinance(String companyCode, int year, int quarter) {
-        String reportType = "consolidated K-IFRS";
-        FinanceEntity statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, reportType, year, quarter);
+        FinanceEntity statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, CONSOLIDATED_K_IFRS_REPORT_TYPE, year, quarter);
         if(statement == null){
-            reportType = "seperate K-IFRS";
-            statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, reportType, year, quarter);
+            statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, SEPERATE_K_IFRS_REPORT_TYPE, year, quarter);
         }
         if(statement == null){
             return Optional.empty();
