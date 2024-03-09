@@ -1,5 +1,6 @@
-package com.finance.service.finance;
+package com.finance.component.exchangeOffice;
 
+import com.finance.component.exchangeOffice.ExchangeOffice;
 import com.finance.repository.DollarExchangeRateRepository;
 
 public class ExchangeOfficeImpl implements ExchangeOffice {

@@ -1,5 +1,6 @@
 package com.finance.service.finance;
 
+import com.finance.component.exchangeOffice.ExchangeOffice;
 import com.finance.service.finance.enums.AccountType;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ class FinanceTest {
         finance.addAccount(AccountType.debt, 45_000l);
         finance.addAccount(AccountType.cashEquivalents, 25_000l);
 
-        ExchangeOffice exchangeOffice = mock(ExchangeOfficeImpl.class);
+        ExchangeOffice exchangeOffice = mock(ExchangeOffice.class);
         when(exchangeOffice.getAverageRate(2020, 1, 3, "KRW", "JPY")).thenReturn(110d/1200d);
         when(exchangeOffice.getFinalRate(2020, 1, "KRW", "JPY")).thenReturn(105d/1300d);
 

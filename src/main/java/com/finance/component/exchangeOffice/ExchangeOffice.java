@@ -1,4 +1,4 @@
-package com.finance.service.finance;
+package com.finance.component.exchangeOffice;
 
 public interface ExchangeOffice {
     public double getAverageRate(int year, int quarter, int cumulativeMonth, String fromCurrency, String toCurrency);

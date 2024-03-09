@@ -1,6 +1,7 @@
 package com.finance.service.finance;
 
 import com.finance.Exception.DataNotExistException;
+import com.finance.component.exchangeOffice.ExchangeOffice;
 import com.finance.domain.CompanyEntity;
 import com.finance.domain.FinanceEntity;
 import com.finance.dto.CompanyDTO;

@@ -1,5 +1,7 @@
-package com.finance.service.finance;
+package com.finance.component;
 
+import com.finance.component.exchangeOffice.ExchangeOffice;
+import com.finance.component.exchangeOffice.ExchangeOfficeImpl;
 import com.finance.domain.DollarExchangeRateEntity;
 import com.finance.repository.DollarExchangeRateRepository;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class ExchangeOfficeTest {
+public class ExchangeOfficeImplTest {
     @Test
     void 평균환율계산Test() {
         // given
