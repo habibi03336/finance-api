@@ -7,9 +7,7 @@ import com.finance.dto.CompanyDTO;
 import com.finance.dto.FinanceDTO;
 import com.finance.repository.CompanyRepository;
 import com.finance.repository.FinanceRepository;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.finance.service.finance.enums.AccountType;
 import java.util.Optional;
 
 public class FinanceService {
@@ -72,13 +70,6 @@ public class FinanceService {
         if(statement == null){
             return Optional.empty();
         }
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(new Account(Account.Type.sales, statement.getSales()));
-        accounts.add(new Account(Account.Type.operatingProfit, statement.getOperatingProfit()));
-        accounts.add(new Account(Account.Type.netProfit, statement.getNetProfit()));
-        accounts.add(new Account(Account.Type.equity, statement.getEquity()));
-        accounts.add(new Account(Account.Type.debt, statement.getDebt()));
-        accounts.add(new Account(Account.Type.cashEquivalents, statement.getCash()));
         Finance finance = new Finance(
                 companyCode,
                 statement.getReportCode(),
@@ -86,9 +77,14 @@ public class FinanceService {
                 statement.getCurrency(),
                 statement.getYear(),
                 statement.getQuarter(),
-                statement.getCumulativeMonth(),
-                accounts
+                statement.getCumulativeMonth()
         );
+        finance.addAccount(AccountType.sales, statement.getSales());
+        finance.addAccount(AccountType.operatingProfit, statement.getOperatingProfit());
+        finance.addAccount(AccountType.netProfit, statement.getNetProfit());
+        finance.addAccount(AccountType.equity, statement.getEquity());
+        finance.addAccount(AccountType.debt, statement.getDebt());
+        finance.addAccount(AccountType.cashEquivalents, statement.getCash());
         return Optional.of(finance);
     }
 
@@ -106,29 +102,13 @@ public class FinanceService {
         financeDTO.quarter = finance.getQuarter();
         financeDTO.currency = finance.getCurrency();
 
-        List<Account> accounts = finance.getAccounts();
-        for(Account account: accounts){
-            switch (account.getType()){
-                case sales:
-                    financeDTO.sales = account.getAmount();
-                    break;
-                case operatingProfit:
-                    financeDTO.operatingProfit = account.getAmount();
-                    break;
-                case netProfit:
-                    financeDTO.netProfit = account.getAmount();
-                    break;
-                case equity:
-                    financeDTO.equity = account.getAmount();
-                    break;
-                case debt:
-                    financeDTO.debt = account.getAmount();
-                    break;
-                case cashEquivalents:
-                    financeDTO.cashEquivalents = account.getAmount();
-                    break;
-            }
-        }
+        financeDTO.sales = finance.getAccountAmount(AccountType.sales);
+        financeDTO.operatingProfit = finance.getAccountAmount(AccountType.operatingProfit);
+        financeDTO.netProfit = finance.getAccountAmount(AccountType.netProfit);
+        financeDTO.equity = finance.getAccountAmount(AccountType.equity);
+        financeDTO.debt = finance.getAccountAmount(AccountType.debt);
+        financeDTO.cashEquivalents = finance.getAccountAmount(AccountType.cashEquivalents);
+
         return financeDTO;
     }
 }

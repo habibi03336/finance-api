@@ -1,5 +1,7 @@
 package com.finance.service.finance;
 
+import com.finance.service.finance.enums.AccountType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Finance {
     private int quarter;
     private List<Account> accounts;
 
-    public Finance(String corpCode, String statementCode, String statementType, String currency, int year, int quarter, int cumulativeMonth, List<Account> accounts){
+    public Finance(String corpCode, String statementCode, String statementType, String currency, int year, int quarter, int cumulativeMonth){
         this.corpCode = corpCode;
         this.statementCode = statementCode;
         this.statementType = statementType;
@@ -21,7 +23,7 @@ public class Finance {
         this.year = year;
         this.quarter = quarter;
         this.cumulativeMonth = cumulativeMonth;
-        this.accounts = accounts;
+        this.accounts = new ArrayList<>();
     }
 
     public void changeCurrency(String toCurrency, ExchangeOffice ex){
@@ -30,41 +32,43 @@ public class Finance {
         double finalRatio = ex.getFinalRate(year, quarter, currency, toCurrency);
         currency = toCurrency;
         for(Account acc : accounts){
-            if(acc.isIncome()){
-                acc.setAmount((long)(acc.getAmount() * averageRatio));
+            if(acc.type.isIncome()){
+                acc.amount = (long)(acc.amount * averageRatio);
             } else {
-                acc.setAmount((long)(acc.getAmount() * finalRatio));
+                acc.amount = (long)(acc.amount * finalRatio);
             }
         }
     }
 
     public static Finance generateIncomeDiffFinance(Finance operand1, Finance operand2){
-        List<Account> accounts  = operand1.getAccounts();
-        List<Account> accounts2 = operand2.getAccounts();
-        List<Account> diffAccounts = new ArrayList<>();
+        List<Account> accounts  = operand1.accounts;
+        List<Account> accounts2 = operand2.accounts;
+        Finance newFinance = new Finance(
+                operand1.getCorpCode(),
+                operand1.getStatementCode(),
+                operand1.getStatementType(),
+                operand1.getCurrency(),
+                operand1.getYear(),
+                operand1.getQuarter(),
+                operand1.getCumulativeMonth() - operand2.getCumulativeMonth()
+        );
         for(Account acc : accounts){
-            if(acc.isIncome()){
+            if(acc.type.isIncome()){
                 for(Account acc2: accounts2){
-                    if(acc.getType().equals(acc2.getType()) && acc.getAmount() != null && acc2.getAmount() != null){
-                        diffAccounts.add(new Account(acc.getType(), acc.getAmount() - acc2.getAmount()));
+                    if(acc.type.equals(acc2.type)){
+                        newFinance.addAccount(acc.type, acc.amount - acc2.amount);
                         break;
                     }
                 }
             } else {
-                diffAccounts.add(new Account(acc.getType(), acc.getAmount()));
+                newFinance.addAccount(acc.type, acc.amount);
             }
         }
+        return newFinance;
+    }
 
-        return new Finance(
-                    operand1.getCorpCode(),
-                    operand1.getStatementCode(),
-                    operand1.getStatementType(),
-                    operand1.getCurrency(),
-                    operand1.getYear(),
-                    operand1.getQuarter(),
-                    operand1.getCumulativeMonth() - operand2.getCumulativeMonth(),
-                    diffAccounts
-                );
+    public void addAccount(AccountType accountType, long amount){
+        accounts.add(new Account(accountType, amount));
     }
 
     public String getCorpCode() {
@@ -95,7 +99,17 @@ public class Finance {
         return cumulativeMonth;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public long getAccountAmount(AccountType accountType){
+        return accounts.stream().filter((acc) -> acc.type.equals(accountType)).findFirst().orElseThrow().amount;
+    }
+
+    public static class Account {
+        private AccountType type;
+        private long amount;
+
+        public Account(AccountType type, Long amount) {
+            this.type = type;
+            this.amount = amount;
+        }
     }
 }
