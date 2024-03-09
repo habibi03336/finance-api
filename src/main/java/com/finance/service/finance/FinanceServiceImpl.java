@@ -10,6 +10,7 @@ import com.finance.repository.FinanceRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class FinanceServiceImpl implements FinanceService {
 
@@ -25,30 +26,32 @@ public class FinanceServiceImpl implements FinanceService {
 
     @Override
     public FinanceDTO getQuarterFinance(String companyCode, int year, int quarter, String currency) throws DataNotExistException {
-        CompanyEntity companyEntity = companyRepository.findByCompanyCode(companyCode);
-        if(companyEntity == null){
-            throw new DataNotExistException(
-                    String.format(
-                            "%s 기업코드가 존재하지 않습니다..",
-                            companyCode
-                    )
-            );
-        }
-        Finance finance = generateFinance(companyCode, year, quarter);
-        if(finance == null){
-            throw new DataNotExistException(
-                    String.format(
-                            "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.",
-                            companyEntity.getCompanyName(),
-                            year,
-                            quarter
-                    )
-            );
-        }
+        CompanyEntity companyEntity = companyRepository
+                .findByCompanyCode(companyCode)
+                .orElseThrow(()->new DataNotExistException(String.format("%s 기업코드가 존재하지 않습니다..", companyCode)));
+        Finance finance = generateFinance(companyCode, year, quarter)
+                .orElseThrow(()->new DataNotExistException(
+                        String.format(
+                                "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.",
+                                companyEntity.getCompanyName(),
+                                year,
+                                quarter
+                        )
+                ));
         finance.changeCurrency(currency, exchangeOffice);
         Finance quarterFinance = finance;
         if(finance.getCumulativeMonth() > 3){
-            Finance priorFinance = generateFinance(companyCode, quarter == 1 ? year - 1 : year, quarter == 1 ? 4 : quarter - 1);
+            int priorYear = quarter == 1 ? year - 1 : year;
+            int priorQuarter = quarter == 1 ? 4 : quarter - 1;
+            Finance priorFinance = generateFinance(companyCode, priorYear, priorQuarter)
+                    .orElseThrow(()->new DataNotExistException(
+                            String.format(
+                                    "%s 기업의 %d년 %d분기의 재무 데이터를 찾을 수 없습니다.",
+                                    companyEntity.getCompanyName(),
+                                    priorYear,
+                                    priorQuarter
+                            )
+                    ));
             priorFinance.changeCurrency(currency, exchangeOffice);
             quarterFinance = Finance.generateIncomeDiffFinance(finance, priorFinance);
         }
@@ -56,7 +59,7 @@ public class FinanceServiceImpl implements FinanceService {
         return mapToDTO(quarterFinance, companyEntity);
     }
 
-    private Finance generateFinance(String companyCode, int year, int quarter) {
+    private Optional<Finance> generateFinance(String companyCode, int year, int quarter) {
         String reportType = "consolidated K-IFRS";
         FinanceEntity statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, reportType, year, quarter);
         if(statement == null){
@@ -64,7 +67,7 @@ public class FinanceServiceImpl implements FinanceService {
             statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, reportType, year, quarter);
         }
         if(statement == null){
-            return null;
+            return Optional.empty();
         }
         List<Account> accounts = new ArrayList<>();
         accounts.add(new Account(Account.Type.sales, statement.getSales()));
@@ -83,7 +86,7 @@ public class FinanceServiceImpl implements FinanceService {
                 statement.getCumulativeMonth(),
                 accounts
         );
-        return finance;
+        return Optional.of(finance);
     }
 
     private FinanceDTO mapToDTO(com.finance.service.finance.Finance finance, CompanyEntity companyEntity){
