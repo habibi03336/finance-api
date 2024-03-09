@@ -1,5 +1,6 @@
 package com.finance.controller;
 
+import com.finance.Exception.DataNotExistException;
 import com.finance.dto.CompanyDTO;
 import com.finance.service.companySearch.CompanySearchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class CompanySearchController {
 
     @GetMapping("/companyByStockCode")
     @ResponseBody
-    public CompanyDTO getCompanyByStockCode(@RequestParam("stockCode") String token){
+    public CompanyDTO getCompanyByStockCode(@RequestParam("stockCode") String token) throws DataNotExistException {
         return companySearchService.getCompanyByStockCode(token);
     }
 }

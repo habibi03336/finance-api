@@ -1,5 +1,6 @@
 package com.finance;
 
+import com.finance.Exception.DataNotExistException;
 import com.finance.controller.CompanySearchController;
 import com.finance.dto.CompanyDTO;
 import org.junit.jupiter.api.Test;
@@ -18,7 +19,7 @@ class ApplicationTests {
 	}
 
 	@Test
-	void getCompanyByStockCode(){
+	void getCompanyByStockCode() throws DataNotExistException {
 		String stockCode = "005930";
 		CompanyDTO companyDTO = companySearchController.getCompanyByStockCode(stockCode);
 		assertEquals(companyDTO.name, "삼성전자");

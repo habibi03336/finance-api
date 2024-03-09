@@ -5,7 +5,6 @@ import com.finance.repository.CompanyRepository;
 import com.finance.repository.DollarExchangeRateRepository;
 import com.finance.repository.FinanceRepository;
 import com.finance.service.companySearch.CompanySearchService;
-import com.finance.service.companySearch.CompanySearchServiceImpl;
 import com.finance.service.finance.ExchangeOffice;
 import com.finance.service.finance.ExchangeOfficeImpl;
 import com.finance.service.finance.FinanceService;
@@ -46,6 +45,6 @@ public class SpringConfig {
 
     @Bean
     public CompanySearchService companySearchService() {
-        return new CompanySearchServiceImpl(companyRepository, companyAliasRepository);
+        return new CompanySearchService(companyRepository, companyAliasRepository);
     }
 }
