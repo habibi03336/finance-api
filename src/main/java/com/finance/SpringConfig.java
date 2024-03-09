@@ -9,7 +9,6 @@ import com.finance.service.companySearch.CompanySearchServiceImpl;
 import com.finance.service.finance.ExchangeOffice;
 import com.finance.service.finance.ExchangeOfficeImpl;
 import com.finance.service.finance.FinanceService;
-import com.finance.service.finance.FinanceServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 
@@ -42,7 +41,7 @@ public class SpringConfig {
     @Bean
     @DependsOn({"exchangeOffice"})
     public FinanceService financeService() {
-        return new FinanceServiceImpl(exchangeOffice, companyRepository, financeRepository);
+        return new FinanceService(exchangeOffice, companyRepository, financeRepository);
     }
 
     @Bean
