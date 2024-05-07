@@ -25,7 +25,7 @@ jobs:
           distribution: "adopt"
 
       - name: Make prd application.properties
-        uses: actions/checkout@v3
+        working-directory: ./
         run: |
           touch ./src/main/resources/application-prod.properties
           echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application-prod.properties
