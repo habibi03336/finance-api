@@ -24,13 +24,11 @@ jobs:
           java-version: "17"
           distribution: "adopt"
 
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v1.3
-        with:
-          envKey_DATABASE_SOURCE: ${{ vars.DATABASE_SOURCE}}
-          directory: ./src/main/resources
-          file_name: .env
-          fail_on_empty: true
+      - name: Make prd application.properties
+        uses: actions/checkout@v3
+        run: |
+          touch ./src/main/resources/application-prod.properties
+          echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application-prod.properties
 
       - name: build java spring
         working-directory: ./

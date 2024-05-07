@@ -12,9 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 
 @Configuration
-@PropertySources({
-        @PropertySource("classpath:.env")
-})
 public class SpringConfig {
     private final CompanyAliasRepository companyAliasRepository;
     private final CompanyRepository companyRepository;

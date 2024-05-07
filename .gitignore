@@ -40,3 +40,5 @@ out/
 
 # ignore test db
 *.db
+
+application-*.properties
