@@ -64,9 +64,9 @@ public class FinanceService {
     private String SEPERATE_K_IFRS_REPORT_TYPE = "seperate K-IFRS";
 
     private Optional<Finance> generateFinance(String companyCode, int year, int quarter) {
-        FinanceEntity statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, CONSOLIDATED_K_IFRS_REPORT_TYPE, year, quarter);
+        FinanceEntity statement = financeRepository.findTopByCompanyCodeAndReportTypeAndYearAndQuarterOrderByReportCodeDesc(companyCode, CONSOLIDATED_K_IFRS_REPORT_TYPE, year, quarter);
         if(statement == null){
-            statement = financeRepository.findByCompanyCodeAndReportTypeAndYearAndQuarter(companyCode, SEPERATE_K_IFRS_REPORT_TYPE, year, quarter);
+            statement = financeRepository.findTopByCompanyCodeAndReportTypeAndYearAndQuarterOrderByReportCodeDesc(companyCode, SEPERATE_K_IFRS_REPORT_TYPE, year, quarter);
         }
         if(statement == null){
             return Optional.empty();
