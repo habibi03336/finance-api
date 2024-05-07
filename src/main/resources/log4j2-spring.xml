@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG">
+    <Properties>
+        <Property name="logPath">${sys:LOG_PATH}</Property>
+        <Property name="logPattern">[%-5level] %d{yyyy-MM-dd HH:mm:ss} [%t] %c{1} - %msg%n</Property>
+        <Property name="serviceName">finance-api</Property>
+    </Properties>
+    <Appenders>
+        <RollingFile
+            name="file"
+            append="true"
+            fileName="${logPath}/${serviceName}.log"
+            filePattern="${logPath}/${serviceName}.%d{yyyy-MM-dd}.%i.log.gz">
+            <PatternLayout pattern="${logPattern}"/>
+            <Policies>
+                <CronTriggeringPolicy schedule="0 0 3 * * ?" evaluateOnStartup="true"/>
+            </Policies>
+        </RollingFile>
+        <DefaultRolloverStrategy>
+            <Delete basePath="${logPath}" maxDepth="1">
+                <IfFileName glob="${serviceName}.*.log"/>
+                <IfLastModified age="30d"/>
+            </Delete>
+        </DefaultRolloverStrategy>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.finance.advice" level="warn" additivity="false">
+            <AppenderRef ref="file"/>
+        </Logger>
+    </Loggers>
+</Configuration>
