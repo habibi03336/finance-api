@@ -68,7 +68,7 @@ public class Finance {
         return newFinance;
     }
 
-    public void addAccount(AccountType accountType, long amount){
+    public void addAccount(AccountType accountType, Long amount){
         accounts.add(new Account(accountType, amount));
     }
 
@@ -100,13 +100,13 @@ public class Finance {
         return cumulativeMonth;
     }
 
-    public long getAccountAmount(AccountType accountType){
+    public Long getAccountAmount(AccountType accountType){
         return accounts.stream().filter((acc) -> acc.type.equals(accountType)).findFirst().orElseThrow().amount;
     }
 
     public static class Account {
         private AccountType type;
-        private long amount;
+        private Long amount;
 
         public Account(AccountType type, Long amount) {
             this.type = type;
