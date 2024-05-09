@@ -33,6 +33,9 @@ public class Finance {
         double finalRatio = ex.getFinalRate(year, quarter, currency, toCurrency);
         currency = toCurrency;
         for(Account acc : accounts){
+            if(acc.amount == null){
+                continue;
+            }
             if(acc.type.isIncome()){
                 acc.amount = (long)(acc.amount * averageRatio);
             } else {
@@ -57,7 +60,11 @@ public class Finance {
             if(acc.type.isIncome()){
                 for(Account acc2: accounts2){
                     if(acc.type.equals(acc2.type)){
-                        newFinance.addAccount(acc.type, acc.amount - acc2.amount);
+                        if(acc.amount == null || acc2.amount == null) {
+                            newFinance.addAccount(acc.type, null);
+                        } else {
+                            newFinance.addAccount(acc.type, acc.amount - acc2.amount);
+                        }
                         break;
                     }
                 }
