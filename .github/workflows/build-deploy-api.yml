@@ -3,12 +3,12 @@ name: build-deploy-api
 on:
   workflow_dispatch:
     branches:
-      - master
+      - main
   push:
     paths:
       - "src/**"
     branches:
-      - master
+      - main
 
 jobs:
   build:
