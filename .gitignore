@@ -42,3 +42,6 @@ out/
 *.db
 
 application-*.properties
+
+# only for local test
+LocalTest*.java
