@@ -1,11 +1,13 @@
 package com.finance.service.finance;
 
-import com.finance.exception.DataNotExistException;
+import com.finance.exception.CompanyNotExistException;
 import com.finance.component.exchangeOffice.ExchangeOffice;
 import com.finance.domain.CompanyEntity;
 import com.finance.domain.FinanceEntity;
 import com.finance.dto.CompanyDTO;
 import com.finance.dto.FinanceDTO;
+import com.finance.exception.DataNotExistException;
+import com.finance.exception.FinanceNotExistException;
 import com.finance.repository.CompanyRepository;
 import com.finance.repository.FinanceRepository;
 import com.finance.service.finance.enums.AccountType;
@@ -29,9 +31,9 @@ public class FinanceService {
     public FinanceDTO getQuarterFinance(String companyCode, int year, int quarter, String currency) throws DataNotExistException {
         CompanyEntity companyEntity = companyRepository
                 .findByCompanyCode(companyCode)
-                .orElseThrow(()->new DataNotExistException(String.format(COMPANY_CODE_NOT_EXIST, companyCode)));
+                .orElseThrow(()->new CompanyNotExistException(String.format(COMPANY_CODE_NOT_EXIST, companyCode)));
         Finance finance = generateFinance(companyCode, year, quarter)
-                .orElseThrow(()->new DataNotExistException(
+                .orElseThrow(()->new FinanceNotExistException(
                         String.format(
                                 FINANCE_DATA_NOT_EXIST,
                                 companyEntity.getCompanyName(),
@@ -45,7 +47,7 @@ public class FinanceService {
             int priorYear = quarter == 1 ? year - 1 : year;
             int priorQuarter = quarter == 1 ? 4 : quarter - 1;
             Finance priorFinance = generateFinance(companyCode, priorYear, priorQuarter)
-                    .orElseThrow(()->new DataNotExistException(
+                    .orElseThrow(()->new FinanceNotExistException(
                             String.format(
                                     FINANCE_DATA_NOT_EXIST,
                                     companyEntity.getCompanyName(),

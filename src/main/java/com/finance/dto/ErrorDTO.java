@@ -1,15 +1,15 @@
 package com.finance.dto;
 
 public class ErrorDTO {
-    private int statusCode;
+    private String errorCode;
     private String message;
-    public ErrorDTO(int statusCode, String message){
-        this.statusCode = statusCode;
+    public ErrorDTO(String errorCode, String message){
+        this.errorCode = errorCode;
         this.message = message;
     }
 
-    public int getStatusCode() {
-        return statusCode;
+    public String getErrorCode() {
+        return errorCode;
     }
 
     public String getMessage() {

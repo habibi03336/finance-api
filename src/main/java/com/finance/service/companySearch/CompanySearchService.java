@@ -1,5 +1,6 @@
 package com.finance.service.companySearch;
 
+import com.finance.exception.CompanyNotExistException;
 import com.finance.exception.DataNotExistException;
 import com.finance.domain.CompanyEntity;
 import com.finance.dto.CompanyDTO;
@@ -39,7 +40,7 @@ public class CompanySearchService {
 
     public CompanyDTO getCompanyByStockCode(String stockCode) throws DataNotExistException {
         CompanyEntity companyEntity = companyRepository.findByStockCode(stockCode)
-                .orElseThrow(()->new DataNotExistException(String.format(STOCK_CODE_NOT_EXIST, stockCode)));
+                .orElseThrow(()->new CompanyNotExistException(String.format(STOCK_CODE_NOT_EXIST, stockCode)));
         return mapToDTO(companyEntity);
     }
 

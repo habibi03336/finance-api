@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     {
         log.error("Internal Server Error", ex);
         return new ErrorDTO(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(), INTERNAL_SERVER_ERROR_MESSAGE);
+                "999", INTERNAL_SERVER_ERROR_MESSAGE);
     }
 
     @ExceptionHandler(value = DataNotExistException.class)
@@ -28,6 +28,6 @@ public class GlobalExceptionHandler {
     {
         log.warn(ex.toString());
         return new ErrorDTO(
-                HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+                ex.getCode(), ex.getMessage());
     }
 }
